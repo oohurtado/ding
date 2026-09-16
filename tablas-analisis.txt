@@ -1,0 +1,7 @@
+- un usuario tiene muchas secciones
+- una sección tiene muchas categorías
+- una categoría tiene muchos gastos
+- un usuario tiene muchos tags
+- muchos gastos tienen muchos tags
+
+*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*

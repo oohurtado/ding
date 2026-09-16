@@ -1,0 +1,15 @@
+
+- inicio de sesion de usuario
+POST /auth/login
+
+- cambiar contraseña
+PUT  /auth/password
+
+- registro de usuario
+POST /auth/register
+
+- recibir codigo en correo de usuario
+POST /auth/password/recovery
+
+- cambiar contraseña con codigo recibido
+POST /auth/password/reset

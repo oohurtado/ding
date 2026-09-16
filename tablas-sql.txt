@@ -1,12 +1,4 @@
-- gastos
 
-- un usuario tiene muchas secciones
-- una sección tiene muchas categorías
-- una categoría tiene muchos gastos
-- un usuario tiene muchos tags
-- muchos gastos tienen muchos tags
-
-*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*
 
 users
 -----
@@ -22,8 +14,10 @@ sections
 id              int PK AI
 user_id         int FK -> users.id
 name            varchar(50)
+position        int
 
 UNIQUE(user_id, name)
+UNIQUE(user_id, position)
 
 
 categories
@@ -33,8 +27,10 @@ section_id      int FK -> sections.id
 name            varchar(50)
 budget          decimal(12,2)
 is_service      bool
+position        int
 
 UNIQUE(section_id, name)
+UNIQUE(section_id, position)
 
 
 expenses
