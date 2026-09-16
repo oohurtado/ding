@@ -1,65 +1,59 @@
-un 'user' tiene una 'house'
-un 'user' tiene muchos 'guests'
-los 'guests' pueden tener su propa 'house'
-los 'gusstes' pueden crear gastos y categorias y tags
+- un usuario tiene muchas secciones
+- una sección tiene muchas categorías
+- una categoría tiene muchos gastos
+- un usuario tiene muchos gastos
+- un usuario tiene muchos tags
+- muchos gastos tienen muchos tags
 
+section 1 ─── N categories
+category 1 ─── N expenses
+expense N ─── N tags
+
+*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*
 
 users
 -----
 id              int PK AI
 first_name      varchar(50)
 last_name       varchar(50)
+password        varchar(100)
 email           varchar(100) UNIQUE
 
-
-houses
-------
-id              int PK AI
-owner_user_id   int FK -> users.id
-name            varchar(25)
-
-
-house_guests
-------------
-id              int PK AI
-house_id        int FK -> houses.id
-user_id         int FK -> users.id
-role            varchar(20)   // opcional: guest, admin, etc.
-
-UNIQUE(house_id, user_id)
-
+UNIQUE(email)
 
 expenses
 --------
 id              int PK AI
-house_id        int FK -> houses.id
-created_by      int FK -> users.id
+user_id         int FK -> users.id
 description     varchar(250) NULL
 date            datetime
 category_id     int FK -> categories.id
 amount          decimal(12,2)
 
+sections
+--------
+id              int PK AI
+user_id         int FK -> users.id
+name            varchar(50)
 
 categories
 ----------
 id              int PK AI
-house_id        int FK -> houses.id
-created_by      int FK -> users.id
+user_id         int FK -> users.id
+section_id      int FK -> section.id
 name            varchar(50)
 bufget		decimal(12,2)
 is_service      bool
 
-UNIQUE(house_id, name)
-
+UNIQUE(user_id, name)
 
 tags
 ----
 id              int PK AI
-house_id        int FK -> houses.id
-created_by      int FK -> users.id
+user_id         int FK -> users.id
 name            varchar(25)
 
-UNIQUE(house_id, name)
+UNIQUE(user_id, name)
 
 
 expense_tags
