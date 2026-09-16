@@ -1,34 +1,21 @@
+- gastos
+
 - un usuario tiene muchas secciones
 - una sección tiene muchas categorías
 - una categoría tiene muchos gastos
-- un usuario tiene muchos gastos
 - un usuario tiene muchos tags
 - muchos gastos tienen muchos tags
 
-section 1 ─── N categories
-category 1 ─── N expenses
-expense N ─── N tags
-
-*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*
+*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*-----*
 
 users
 -----
 id              int PK AI
 first_name      varchar(50)
 last_name       varchar(50)
-password        varchar(100)
+password_hash   varchar(255)
 email           varchar(100) UNIQUE
 
-UNIQUE(email)
-
-expenses
---------
-id              int PK AI
-user_id         int FK -> users.id
-description     varchar(250) NULL
-date            datetime
-category_id     int FK -> categories.id
-amount          decimal(12,2)
 
 sections
 --------
@@ -36,16 +23,28 @@ id              int PK AI
 user_id         int FK -> users.id
 name            varchar(50)
 
+UNIQUE(user_id, name)
+
+
 categories
 ----------
 id              int PK AI
-user_id         int FK -> users.id
-section_id      int FK -> section.id
+section_id      int FK -> sections.id
 name            varchar(50)
-bufget		decimal(12,2)
+budget          decimal(12,2)
 is_service      bool
 
-UNIQUE(user_id, name)
+UNIQUE(section_id, name)
+
+
+expenses
+--------
+id              int PK AI
+category_id     int FK -> categories.id
+description     varchar(250) NULL
+date            datetime
+amount          decimal(12,2)
+
 
 tags
 ----
@@ -58,6 +57,7 @@ UNIQUE(user_id, name)
 
 expense_tags
 ------------
+id              int PK AI
 expense_id      int FK -> expenses.id
 tag_id          int FK -> tags.id
 
