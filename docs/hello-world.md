@@ -25,19 +25,22 @@ Rutas relativas a `src/`:
 
 | Archivo | Responsabilidad |
 | --- | --- |
-| `main.py` | Punto de entrada que llama a `say_hi()`. |
-| `presentation/hello_world.py` | Ensambla e inyecta dependencias y muestra el resultado. |
-| `application/use_cases/hello_world.py` | Orquesta el saludo mediante la interfaz y devuelve un DTO. |
-| `domain/repositories/hello_world_repository.py` | Interfaz abstracta del repositorio. |
-| `domain/models/entities/hello_world.py` | Entidad con identidad y mensaje. |
-| `domain/models/dtos/hello_world_response.py` | Modelo de salida con el mensaje para el consumidor. |
-| `infrastructure/repositories/hello_world_repository_impl.py` | Implementación que convierte datos en entidad. |
-| `infrastructure/persistence/hello_world_memory.py` | Simula almacenamiento mediante datos fijos en memoria. |
+| `main.py` | Obtiene el caso de uso de la fábrica y lo inyecta en `say_hi(use_case)`. |
+| `dependencies.py` | Construye el almacenamiento, el repositorio concreto y el caso de uso. |
+| `presentation/example/hello_world.py` | Recibe el caso de uso y muestra el resultado. |
+| `application/use_cases/example/hello_world.py` | Orquesta el saludo mediante la interfaz y devuelve un DTO. |
+| `domain/repositories/example/hello_world_repository.py` | Interfaz abstracta del repositorio. |
+| `domain/models/entities/example/hello_world.py` | Entidad con identidad y mensaje. |
+| `domain/models/dtos/example/hello_world_response.py` | Modelo de salida con el mensaje para el consumidor. |
+| `infrastructure/repositories/example/hello_world_repository_impl.py` | Implementación que convierte datos en entidad. |
+| `infrastructure/persistence/example/hello_world_memory.py` | Simula almacenamiento mediante datos fijos en memoria. |
 
 ## Flujo
 
 ```text
-main.py -> say_hi()
+main.py
+  -> get_hello_world_use_case() [ensambla almacenamiento, repositorio y caso de uso]
+  -> say_hi(use_case)
   -> HelloWorldUseCase.execute()
      -> HelloWorldRepository.get_greeting() [interfaz]
         -> HelloWorldRepositoryImpl.get_greeting() [implementación inyectada]
@@ -49,11 +52,13 @@ main.py -> say_hi()
   -> hola mundo
 ```
 
-La presentación conoce las clases concretas y las inyecta por constructor.
+`dependencies.py` conoce las clases concretas y las inyecta por constructor.
+`main.py` entrega el caso de uso a presentación, que no construye repositorios.
+La fábrica crea instancias nuevas en cada llamada, sin un contenedor externo.
 El caso de uso solo conoce el contrato del repositorio. Infraestructura depende
 del dominio para implementarlo; el dominio no depende de aplicación ni de
 infraestructura. Otra implementación del contrato puede sustituir a la actual
-cambiando su ensamblado en presentación.
+cambiando su ensamblado en `dependencies.py`.
 
 El DTO se conserva en `domain/models/dtos`, siguiendo la estructura original.
 En otras estructuras DDD, los DTO de salida pueden vivir en aplicación.
