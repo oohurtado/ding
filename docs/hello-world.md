@@ -8,20 +8,22 @@ Requiere Python 3.9 o superior, sin dependencias externas ni base de datos.
 Desde la raíz del repositorio `ding`:
 
 ```powershell
-python -B -m src.presentation.hello_world
+python -B src/main.py
 ```
 
-También puedes ejecutar el archivo directamente desde cualquier carpeta:
+O desde cualquier carpeta, usando la ruta completa:
 
 ```powershell
-python -B "C:\Users\OSCAR\Desktop\Dev\Code\ding\src\presentation\hello_world.py"
+python -B "C:\Users\OSCAR\Desktop\Dev\Code\ding\src\main.py"
 ```
 
-La entrada agrega la raíz del proyecto a la ruta de imports cuando se ejecuta
-como archivo. Desde `src/presentation/hello_world.py`, `parents[2]` apunta a
-`ding/`, la carpeta que contiene el paquete `src`.
-
 Salida: `hola mundo`.
+
+`main.py` permanece dentro de `src`. Al ejecutarlo directamente, Python incluye
+su carpeta en la búsqueda de módulos. Los imports comienzan con `application`,
+`domain`, `infrastructure` o `presentation`, sin el prefijo `src` y sin modificar
+`sys.path`. Las capas internas se importan desde este punto de entrada.
+Este esquema usa `python src/main.py`, no `python -m src.main`.
 
 ## Archivos y responsabilidades
 
@@ -29,6 +31,7 @@ Rutas relativas a `src/`:
 
 | Archivo | Responsabilidad |
 | --- | --- |
+| `main.py` | Punto de entrada que llama a `say_hi()`. |
 | `presentation/hello_world.py` | Ensambla e inyecta dependencias y muestra el resultado. |
 | `application/use_cases/hello_world.py` | Orquesta el saludo mediante la interfaz y devuelve un DTO. |
 | `domain/repositories/hello_world_repository.py` | Interfaz abstracta del repositorio. |
@@ -40,7 +43,7 @@ Rutas relativas a `src/`:
 ## Flujo
 
 ```text
-main()
+main.py -> say_hi()
   -> HelloWorldUseCase.execute()
      -> HelloWorldRepository.get_greeting() [interfaz]
         -> HelloWorldRepositoryImpl.get_greeting() [implementación inyectada]

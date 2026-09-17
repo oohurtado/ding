@@ -1,3 +1,5 @@
 from presentation.hello_world import say_hi
 
-say_hi()
+
+if __name__ == "__main__":
+    say_hi()
