@@ -9,7 +9,7 @@ if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from src.application.use_cases.hello_world import HelloWorldUseCase
-from src.infrastructure.persistance.hello_world_memory import HelloWorldMemory
+from src.infrastructure.persistence.hello_world_memory import HelloWorldMemory
 from src.infrastructure.repositories.hello_world_repository_impl import (
     HelloWorldRepositoryImpl,
 )
