@@ -10,14 +10,14 @@ if __package__ in (None, ""):
 
 from code.application.use_cases.hello_world import HelloWorldUseCase
 from code.infrastructure.persistance.hello_world_memory import HelloWorldMemory
-from code.infrastructure.repositories.in_memory_hello_world_repository import (
-    InMemoryHelloWorldRepository,
+from code.infrastructure.repositories.hello_world_repository_impl import (
+    HelloWorldRepositoryImpl,
 )
 
 
 def main() -> None:
     storage = HelloWorldMemory()
-    repository = InMemoryHelloWorldRepository(storage)
+    repository = HelloWorldRepositoryImpl(storage)
     use_case = HelloWorldUseCase(repository)
     response = use_case.execute()
     print(response.message)

@@ -3,7 +3,7 @@ from code.domain.repositories.hello_world_repository import HelloWorldRepository
 from code.infrastructure.persistance.hello_world_memory import HelloWorldMemory
 
 
-class InMemoryHelloWorldRepository(HelloWorldRepository):
+class HelloWorldRepositoryImpl(HelloWorldRepository):
     """Implementa el contrato y transforma datos en una entidad."""
 
     def __init__(self, storage: HelloWorldMemory) -> None:

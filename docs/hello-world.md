@@ -34,7 +34,7 @@ Rutas relativas a `code/`:
 | `domain/repositories/hello_world_repository.py` | Interfaz abstracta del repositorio. |
 | `domain/models/entities/hello_world.py` | Entidad con identidad y mensaje. |
 | `domain/models/dtos/hello_world_response.py` | Modelo de salida con el mensaje para el consumidor. |
-| `infrastructure/repositories/in_memory_hello_world_repository.py` | Implementación que convierte datos en entidad. |
+| `infrastructure/repositories/hello_world_repository_impl.py` | Implementación que convierte datos en entidad. |
 | `infrastructure/persistance/hello_world_memory.py` | Simula almacenamiento mediante datos fijos en memoria. |
 
 ## Flujo
@@ -43,7 +43,7 @@ Rutas relativas a `code/`:
 main()
   -> HelloWorldUseCase.execute()
      -> HelloWorldRepository.get_greeting() [interfaz]
-        -> InMemoryHelloWorldRepository.get_greeting() [implementación inyectada]
+        -> HelloWorldRepositoryImpl.get_greeting() [implementación inyectada]
            -> HelloWorldMemory.read()
            <- dict con id y message
         <- entidad HelloWorld
