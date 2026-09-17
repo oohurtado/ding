@@ -10,4 +10,5 @@ from infrastructure.repositories.example.hello_world_repository_impl import (
 def get_hello_world_use_case() -> HelloWorldUseCase:
     storage = HelloWorldMemory()
     repository = HelloWorldRepositoryImpl(storage)
-    return HelloWorldUseCase(repository)
+    useCase = HelloWorldUseCase(repository)
+    return useCase
