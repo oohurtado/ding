@@ -1,6 +1,6 @@
-from src.domain.models.entities.example.hello_world import HelloWorld
-from src.domain.repositories.example.hello_world_repository import HelloWorldRepository
-from src.infrastructure.persistence.example.hello_world_memory import HelloWorldMemory
+from domain.models.entities.example.hello_world import HelloWorld
+from domain.repositories.example.hello_world_repository import HelloWorldRepository
+from infrastructure.persistence.example.hello_world_memory import HelloWorldMemory
 
 
 class HelloWorldRepositoryImpl(HelloWorldRepository):
