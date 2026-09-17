@@ -1,4 +1,4 @@
-from presentation.hello_world import say_hi
+from src.presentation.example.hello_world import say_hi
 
 
 if __name__ == "__main__":

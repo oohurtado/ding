@@ -1,8 +1,8 @@
 """Presentación y ensamblado de la feature hello-world."""
 
-from application.use_cases.hello_world import HelloWorldUseCase
-from infrastructure.persistence.hello_world_memory import HelloWorldMemory
-from infrastructure.repositories.hello_world_repository_impl import (
+from src.application.use_cases.example.hello_world import HelloWorldUseCase
+from src.infrastructure.persistence.example.hello_world_memory import HelloWorldMemory
+from src.infrastructure.repositories.example.hello_world_repository_impl import (
     HelloWorldRepositoryImpl,
 )
 
