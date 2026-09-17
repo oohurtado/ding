@@ -11,19 +11,13 @@ Desde la raíz del repositorio `ding`:
 python -B src/main.py
 ```
 
-O desde cualquier carpeta, usando la ruta completa:
-
-```powershell
-python -B "C:\Users\OSCAR\Desktop\Dev\Code\ding\src\main.py"
-```
-
-Salida: `hola mundo`.
+También puedes ejecutar `src/main.py` por ruta absoluta desde otra carpeta.
+No recibe parámetros. Salida: `hola mundo`.
 
 `main.py` permanece dentro de `src`. Al ejecutarlo directamente, Python incluye
 su carpeta en la búsqueda de módulos. Los imports comienzan con `application`,
 `domain`, `infrastructure` o `presentation`, sin el prefijo `src` y sin modificar
-`sys.path`. Las capas internas se importan desde este punto de entrada.
-Este esquema usa `python src/main.py`, no `python -m src.main`.
+`sys.path`. Este esquema usa `python src/main.py`, no `python -m src.main`.
 
 ## Archivos y responsabilidades
 
@@ -55,17 +49,13 @@ main.py -> say_hi()
   -> hola mundo
 ```
 
-El punto de entrada conoce las clases concretas y las inyecta por constructor.
+La presentación conoce las clases concretas y las inyecta por constructor.
 El caso de uso solo conoce el contrato del repositorio. Infraestructura depende
 del dominio para implementarlo; el dominio no depende de aplicación ni de
 infraestructura. Otra implementación del contrato puede sustituir a la actual
-cambiando su ensamblado en el punto de entrada.
+cambiando su ensamblado en presentación.
 
-Se conserva el nombre existente `persistence` y se coloca el DTO en
-`domain/models/dtos`, siguiendo las carpetas originales. En otras estructuras
-DDD, los DTO de salida pueden vivir en aplicación. La identidad del saludo es
-solo didáctica; este ejemplo no tiene reglas de negocio complejas.
-
-Los casos de uso viven en `application/use_cases` y la entrada en `presentation`.
-La feature se llama `hello-world`, pero sus módulos usan `hello_world`
-para poder importarlos en Python.
+El DTO se conserva en `domain/models/dtos`, siguiendo la estructura original.
+En otras estructuras DDD, los DTO de salida pueden vivir en aplicación.
+La identidad del saludo es solo didáctica; este ejemplo no tiene reglas de
+negocio complejas. Los módulos usan `hello_world` para poder importarlos.
