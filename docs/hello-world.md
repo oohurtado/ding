@@ -8,34 +8,34 @@ Requiere Python 3.9 o superior, sin dependencias externas ni base de datos.
 Desde la raíz del repositorio `ding`:
 
 ```powershell
-python -B -m code.hello_world
+python -B -m src.presentation.hello_world
 ```
 
 También puedes ejecutar el archivo directamente desde cualquier carpeta:
 
 ```powershell
-python -B "C:\Users\OSCAR\Desktop\Dev\Code\ding\code\hello_world.py"
+python -B "C:\Users\OSCAR\Desktop\Dev\Code\ding\src\presentation\hello_world.py"
 ```
 
 La entrada agrega la raíz del proyecto a la ruta de imports cuando se ejecuta
-como archivo, para encontrar el paquete local `code` antes que el módulo del
-mismo nombre de la biblioteca estándar.
+como archivo. Desde `src/presentation/hello_world.py`, `parents[2]` apunta a
+`ding/`, la carpeta que contiene el paquete `src`.
 
 Salida: `hola mundo`.
 
 ## Archivos y responsabilidades
 
-Rutas relativas a `code/`:
+Rutas relativas a `src/`:
 
 | Archivo | Responsabilidad |
 | --- | --- |
-| `hello_world.py` | Ensambla e inyecta dependencias y muestra el resultado. |
+| `presentation/hello_world.py` | Ensambla e inyecta dependencias y muestra el resultado. |
 | `application/use_cases/hello_world.py` | Orquesta el saludo mediante la interfaz y devuelve un DTO. |
 | `domain/repositories/hello_world_repository.py` | Interfaz abstracta del repositorio. |
 | `domain/models/entities/hello_world.py` | Entidad con identidad y mensaje. |
 | `domain/models/dtos/hello_world_response.py` | Modelo de salida con el mensaje para el consumidor. |
 | `infrastructure/repositories/hello_world_repository_impl.py` | Implementación que convierte datos en entidad. |
-| `infrastructure/persistance/hello_world_memory.py` | Simula almacenamiento mediante datos fijos en memoria. |
+| `infrastructure/persistence/hello_world_memory.py` | Simula almacenamiento mediante datos fijos en memoria. |
 
 ## Flujo
 
@@ -58,12 +58,11 @@ del dominio para implementarlo; el dominio no depende de aplicación ni de
 infraestructura. Otra implementación del contrato puede sustituir a la actual
 cambiando su ensamblado en el punto de entrada.
 
-Se conserva el nombre existente `persistance` y se coloca el DTO en
+Se conserva el nombre existente `persistence` y se coloca el DTO en
 `domain/models/dtos`, siguiendo las carpetas originales. En otras estructuras
 DDD, los DTO de salida pueden vivir en aplicación. La identidad del saludo es
 solo didáctica; este ejemplo no tiene reglas de negocio complejas.
 
-Se agrega `application/use_cases` para la lógica de aplicación. La carpeta
-original `application/test-case` se conserva; su guion impide imports normales
-de Python. Igualmente, la feature se llama `hello-world`, pero sus módulos
-usan `hello_world` para poder importarlos.
+Los casos de uso viven en `application/use_cases` y la entrada en `presentation`.
+La feature se llama `hello-world`, pero sus módulos usan `hello_world`
+para poder importarlos en Python.
