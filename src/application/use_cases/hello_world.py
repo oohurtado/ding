@@ -1,5 +1,5 @@
-from code.domain.models.dtos.hello_world_response import HelloWorldResponse
-from code.domain.repositories.hello_world_repository import HelloWorldRepository
+from src.domain.models.dtos.hello_world_response import HelloWorldResponse
+from src.domain.repositories.hello_world_repository import HelloWorldRepository
 
 
 class HelloWorldUseCase:
