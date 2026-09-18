@@ -25,9 +25,8 @@ Rutas relativas a `src/`:
 
 | Archivo | Responsabilidad |
 | --- | --- |
-| `main.py` | Obtiene el caso de uso de la fábrica y lo inyecta en `say_hi(use_case)`. |
+| `main.py` | Obtiene el caso de uso de la fábrica, lo ejecuta e imprime la respuesta. |
 | `dependencies.py` | Construye el almacenamiento, el repositorio concreto y el caso de uso. |
-| `presentation/example/hello_world.py` | Recibe el caso de uso y muestra el resultado. |
 | `application/use_cases/example/hello_world.py` | Orquesta el saludo mediante la interfaz y devuelve un DTO. |
 | `domain/repositories/example/hello_world_repository.py` | Interfaz abstracta del repositorio. |
 | `domain/models/entities/example/hello_world.py` | Entidad con identidad y mensaje. |
@@ -40,7 +39,6 @@ Rutas relativas a `src/`:
 ```text
 main.py
   -> get_hello_world_use_case() [ensambla almacenamiento, repositorio y caso de uso]
-  -> say_hi(use_case)
   -> HelloWorldUseCase.execute()
      -> HelloWorldRepository.get_greeting() [interfaz]
         -> HelloWorldRepositoryImpl.get_greeting() [implementación inyectada]
@@ -53,7 +51,8 @@ main.py
 ```
 
 `dependencies.py` conoce las clases concretas y las inyecta por constructor.
-`main.py` entrega el caso de uso a presentación, que no construye repositorios.
+`main.py` actúa como presentación de consola: ejecuta el caso de uso e imprime
+la respuesta sin construir repositorios.
 La fábrica crea instancias nuevas en cada llamada, sin un contenedor externo.
 El caso de uso solo conoce el contrato del repositorio. Infraestructura depende
 del dominio para implementarlo; el dominio no depende de aplicación ni de

@@ -1,7 +1,9 @@
+from infrastructure.config.database import engine, Base
+
 from dependencies import get_hello_world_use_case
-from presentation.example.hello_world import say_hi
 
+Base.metadata.create_all(bind=engine)
 
-if __name__ == "__main__":
-    use_case = get_hello_world_use_case()
-    say_hi(use_case)
+use_case = get_hello_world_use_case()
+response = use_case.execute()
+print(response.message)
