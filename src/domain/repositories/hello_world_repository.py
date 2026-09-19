@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from domain.models.entities.example.hello_world import HelloWorld
+from domain.models.hello_world import HelloWorld
 
 
 class HelloWorldRepository(ABC):

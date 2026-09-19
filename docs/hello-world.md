@@ -1,65 +1,64 @@
-# Feature hello-world
+# Feature example: hello-world
 
-Ejemplo educativo del recorrido entre capas DDD. Solo imprime `hola mundo`.
-Requiere Python 3.9 o superior, sin dependencias externas ni base de datos.
+Ejemplo por capas que conserva la salida de consola `hola mundo`.
+
+## Estructura
+
+```text
+src/
+├── domain/
+│   ├── models/hello_world.py
+│   └── repositories/hello_world_repository.py
+├── features/
+│   └── example/hello_world/
+│       ├── use_case.py
+│       └── dto.py
+├── infrastructure/
+│   ├── database/database.py
+│   ├── repositories/hello_world_repository_impl.py
+│   └── persistence/example/hello_world_memory.py
+├── presentation/
+│   ├── routers/example_router.py
+│   └── schemas/hello_world_response.py
+├── dependencies.py
+└── main.py
+```
+
+El dominio contiene la entidad y el contrato del repositorio. El caso de uso
+vive junto a su DTO en `features/example/hello_world` y depende del contrato.
+La implementación convierte los datos del almacenamiento en memoria a la entidad.
+`dependencies.py` ensambla estas dependencias mediante inyección por constructor.
+
+La función `hello_world` de `example_router.py` recibe el caso de uso y convierte
+su DTO al esquema de presentación. Es un adaptador de consola; no expone rutas
+HTTP ni requiere un framework web. El saludo no recibe parámetros, por lo que
+solo tiene un esquema de respuesta y no necesita un esquema de solicitud.
+
+## Flujo
+
+```text
+main -> example_router.hello_world -> HelloWorldUseCase.execute
+     -> HelloWorldRepository.get_greeting -> HelloWorldRepositoryImpl
+     -> HelloWorldMemory.read
+     <- entidad <- DTO <- esquema de presentación -> print
+```
 
 ## Ejecutar
 
-Desde la raíz del repositorio `ding`:
+Desde la raíz del repositorio:
 
 ```powershell
 python -B src/main.py
 ```
 
-También puedes ejecutar `src/main.py` por ruta absoluta desde otra carpeta.
-No recibe parámetros. Salida: `hola mundo`.
+Se conservan los imports desde `src` (sin prefijo `src`); también funciona pasar
+la ruta absoluta de `main.py`. No se usa `python -m src.main`.
 
-`main.py` permanece dentro de `src`. Al ejecutarlo directamente, Python incluye
-su carpeta en la búsqueda de módulos. Los imports comienzan con `application`,
-`domain`, `infrastructure` o `presentation`, sin el prefijo `src` y sin modificar
-`sys.path`. Este esquema usa `python src/main.py`, no `python -m src.main`.
+El arranque conserva el registro de entidades SQLAlchemy y la creación de tablas
+existentes. Por ello necesita SQLAlchemy, pydantic-settings, el controlador de la
+base de datos y una conexión válida, además de las variables configuradas en
+`src/.env`. El ejemplo en memoria, por sí solo, usa únicamente la biblioteca
+estándar de Python y no accede a la base de datos.
 
-## Archivos y responsabilidades
-
-Rutas relativas a `src/`:
-
-| Archivo | Responsabilidad |
-| --- | --- |
-| `main.py` | Obtiene el caso de uso de la fábrica, lo ejecuta e imprime la respuesta. |
-| `dependencies.py` | Construye el almacenamiento, el repositorio concreto y el caso de uso. |
-| `application/use_cases/example/hello_world.py` | Orquesta el saludo mediante la interfaz y devuelve un DTO. |
-| `domain/repositories/example/hello_world_repository.py` | Interfaz abstracta del repositorio. |
-| `domain/models/entities/example/hello_world.py` | Entidad con identidad y mensaje. |
-| `domain/models/dtos/example/hello_world_response.py` | Modelo de salida con el mensaje para el consumidor. |
-| `infrastructure/repositories/example/hello_world_repository_impl.py` | Implementación que convierte datos en entidad. |
-| `infrastructure/persistence/example/hello_world_memory.py` | Simula almacenamiento mediante datos fijos en memoria. |
-
-## Flujo
-
-```text
-main.py
-  -> get_hello_world_use_case() [ensambla almacenamiento, repositorio y caso de uso]
-  -> HelloWorldUseCase.execute()
-     -> HelloWorldRepository.get_greeting() [interfaz]
-        -> HelloWorldRepositoryImpl.get_greeting() [implementación inyectada]
-           -> HelloWorldMemory.read()
-           <- dict con id y message
-        <- entidad HelloWorld
-     <- DTO HelloWorldResponse
-  -> print(response.message)
-  -> hola mundo
-```
-
-`dependencies.py` conoce las clases concretas y las inyecta por constructor.
-`main.py` actúa como presentación de consola: ejecuta el caso de uso e imprime
-la respuesta sin construir repositorios.
-La fábrica crea instancias nuevas en cada llamada, sin un contenedor externo.
-El caso de uso solo conoce el contrato del repositorio. Infraestructura depende
-del dominio para implementarlo; el dominio no depende de aplicación ni de
-infraestructura. Otra implementación del contrato puede sustituir a la actual
-cambiando su ensamblado en `dependencies.py`.
-
-El DTO se conserva en `domain/models/dtos`, siguiendo la estructura original.
-En otras estructuras DDD, los DTO de salida pueden vivir en aplicación.
-La identidad del saludo es solo didáctica; este ejemplo no tiene reglas de
-negocio complejas. Los módulos usan `hello_world` para poder importarlos.
+La configuración de conexión vive ahora en `infrastructure/database/database.py`.
+La entidad de usuario existente conserva su ubicación y usa esa nueva ruta.

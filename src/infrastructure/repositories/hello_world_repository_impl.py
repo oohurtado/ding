@@ -1,5 +1,5 @@
-from domain.models.entities.example.hello_world import HelloWorld
-from domain.repositories.example.hello_world_repository import HelloWorldRepository
+from domain.models.hello_world import HelloWorld
+from domain.repositories.hello_world_repository import HelloWorldRepository
 from infrastructure.persistence.example.hello_world_memory import HelloWorldMemory
 
 

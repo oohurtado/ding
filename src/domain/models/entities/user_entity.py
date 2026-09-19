@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy import DateTime, Integer, String, func
 from sqlalchemy.orm import Mapped, mapped_column
 
-from infrastructure.config.database import Base
+from infrastructure.database.database import Base
 
 class UserEntity(Base):
     __tablename__ = "users"
