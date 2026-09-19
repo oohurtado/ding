@@ -4,7 +4,7 @@ from importlib import import_module
 
 
 MODEL_MODULES = (
-    "domain.models.entities.user_entit",
+    "domain.models.entities.user_entity",
 )
 
 
