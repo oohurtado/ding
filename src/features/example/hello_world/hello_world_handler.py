@@ -1,6 +1,6 @@
 from features.example.hello_world.hello_world_request import HelloWorldRequest
 from features.example.hello_world.hello_world_response import HelloWorldResponse
-from domain.repositories.hello_world_repository import HelloWorldRepository
+from domain.repositories.example.hello_world_repository import HelloWorldRepository
 
 
 class HelloWorldHandler:
